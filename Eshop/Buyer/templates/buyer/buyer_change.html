@@ -1,0 +1,62 @@
+{% extends 'buyer/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="store">
+        <p>编辑个人信息</p>
+        <div class="store_box">
+        <form method="post" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="line">
+                <label>用户名</label>
+                <input type="text" name="username" class="input" value="{{ buyer.username }}" id="username"/>
+            </div>
+            <div class="line">
+                <label>邮&nbsp;&nbsp;&nbsp;箱</label>
+                <span style="margin-left: 20px">{{ buyer.email }}</span>
+            </div>
+            <div class="line">
+                <label>电&nbsp;&nbsp;&nbsp;话</label>
+                <input type="text" name="phone" class="input" value="{{ buyer.phone }}"/>
+            </div>
+            <div class="line">
+                <label>照&nbsp;&nbsp;&nbsp;片</label>
+                <input type="file" id="L_repass" name="photo" required=""
+                  autocomplete="off" class="layui-input" multiple>
+            </div>
+            <div class="line">
+                <label></label>
+                <input type="submit" value="提交" class="btn"/>
+            </div>
+        </form>
+        </div>
+   </div>
+   <script>
+        $(
+            function () {
+                $("#username").blur(
+                    function () {
+                        var name = $("#username").val();
+                        $.ajax(
+                            {
+                                url:"/buyer/nameValid/?username="+name,
+                                type:"get",
+                                data:"",
+                                success:function (data) {
+                                    console.log(data);
+                                    result = data["result"];
+                                    if (result === "F"){
+                                        alert("用户名已存在");
+                                        $("#username").val("")
+                                    }
+                                },
+                                error:function (error) {
+                                    console.log(error)
+                                }
+                            }
+                        )
+                    }
+                )
+            }
+        )
+   </script>
+{% endblock %}

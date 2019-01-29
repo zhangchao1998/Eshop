@@ -1,0 +1,29 @@
+{% extends 'buyer/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="cart_list">
+        <div class="cart_top">{{ goods.goods_name }}已添加到购物车</div>
+        <table width="100%" cellpadding="0" cellspacing="0" border='0px'>
+            <tr>
+                <th width='10%'>商品名称</th>
+                <th width='20%'>商品缩略图</th>
+                <th width='20%'>商品单价</th>
+                <th width='20%'>商品数量</th>
+                <th width='20%'>商品小计</th>
+            </tr>
+            <tr>
+                <td width='10%' style="text-align: center">{{ goods.goods_name }}</td>
+                <td width='20%' style="text-align: center"><img src="{% static img_address %}" alt="加载中" style="width: 80px;height: 80px"></td>
+                <td width='20%' style="text-align: center">{{ goods.goods_now_price }}</td>
+                <td width='20%' style="text-align: center">{{ number }}</td>
+                <td width='20%' style="text-align: center">{{ money }}</td>
+            </tr>
+        </table>
+        <div class="order">
+            <a href="/buyer/buyCar/" class="btn">去购物车</a>
+        </div>
+        <div class="order">
+            <a href="/buyer/goods_details/{{ goods.id }}/" class="btn" >商品详情</a>
+        </div>
+    </div>
+{% endblock %}

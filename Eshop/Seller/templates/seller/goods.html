@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>全球生鲜卖家管理后台</title>
+    <link rel="stylesheet" href="{% static 'seller/css/font.css' %}">
+    <link rel="stylesheet" href="{% static 'seller/css/xadmin.css' %}">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'seller/lib/layui/layui.js' %}" charset="utf-8"></script>
+    <script type="text/javascript" src="{% static 'seller/js/xadmin.js' %}"></script>
+  </head>
+
+  <body class="layui-anim layui-anim-up">
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">商品管理</a>
+        <a href="">商品列表</a>
+      </span>
+    </div>
+    <div class="x-body">
+      <table>
+          <tr>
+              <th>商品名称：</th>
+              <td>{{ one_goods.goods_name }}</td>
+          </tr>
+          <tr>
+              <th>原价：</th>
+              <td>{{ one_goods.goods_price }}</td>
+          </tr>
+          <tr>
+              <th>现价：</th>
+              <td>{{ one_goods.goods_now_price }}</td>
+          </tr>
+          <tr>
+              <th>库存：</th>
+              <td>{{ one_goods.goods_num }}</td>
+          </tr>
+          <tr>
+              <th>介绍：</th>
+              <td>{{ one_goods.goods_description }}</td>
+          </tr>
+          <tr>
+              <th>发布时间：</th>
+              <td>{{ one_goods.goods_show_time }}</td>
+          </tr>
+          <tr>
+              <th>图片：</th>
+              {% for photo in photos %}
+                  <td><img src="/static/{{ photo.img_address }}" alt="加载中" style="display: inline-block;width: 100px;height: 100px"></td>
+              {% endfor %}
+          </tr>
+      </table>
+    </div>
+
+  </body>
+
+</html>

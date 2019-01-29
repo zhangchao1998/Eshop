@@ -1,0 +1,93 @@
+{% extends 'buyer/base.html' %}
+{% load static %}
+{% block title %}
+    {{ goods.goods_name }}
+{% endblock %}
+{% block content %}
+    <div class="goods_type">
+        <div class="goods_details"><a href="/buyer/index/">首页</a> >{{ goods.goods_name }}</div>
+        <div class="goods_box">
+            <div class="box_pic"><img src="{% static img_address %}"/></div>
+            <div class="box_details">
+                <form method="post" action="/buyer/carJump/{{ goods.id }}/">
+                    {% csrf_token %}
+                    <h1>{{ goods.goods_name }}</h1>
+                    <span style='font-size: 15px;'>{{ goods.goods_description }}</span>
+                    <div class="box_bg">价格：￥<span style="font-size: 40px; font-weight: bold; font-family:'微软雅黑';color:#FD482C ">{{ goods.goods_now_price }}</span>元&nbsp;&nbsp;原价:￥<s style='color: red'>{{ goods.goods_price }}</s></div>
+                    <div class="address">配送：{{ address }}</div>
+                    <div class="address">库存：{{ goods.goods_num }}</div>
+                    <div class="num">数量：
+                        <input type="button" name="-" value="-" class="btn1" onclick="dec()" />
+                        <input type="text" value="1" id="count" name="count" class="text1"/>
+                        <input type="button" name="+" value="+" class="btn1" onclick="add()"/> </div>
+
+                    <div class="btn2"><input type="submit" value="加入购物车" class="gouwu"/> </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var count ;
+        function add()
+        {
+            count = document.getElementById('count').value;
+            count++;
+            document.getElementById('count').value = count;
+        }
+        function dec()
+        {
+            count = document.getElementById('count').value;
+            count--;
+            if(document.getElementById('count').value == 1)
+            {
+                document.getElementById('count').value = 1
+            }
+            else
+            {
+                document.getElementById('count').value = count;
+            }
+        }
+    </script>
+    <div class="goods_type1">
+        <div class="type1_left">
+            <div class="type1_top">其他商品</div>
+            <div class="type1_bottom">
+                {% for a_goods in goods_list %}
+                <dl>
+                    <dt><a href="/buyer/goods_details/{{ a_goods.a_goods.id }}/"><img src="{% static a_goods.img %}"/> </a></dt>
+                    <dd>
+                        <span class="pname">
+
+                            <a href="/buyer/goods_details/{{ a_goods.a_goods.id }}/">{{ a_goods.a_goods.goods_name }}</a>
+                        </span>
+                        <p class="price">￥{{ a_goods.a_goods.goods_now_price }}</p>
+                    </dd>
+                </dl>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="type1_right">
+            <div class="type1_top">商品详情</div>
+            <div class="type1_bottom">{{ goods.goods_content }}</div>
+            {% for one_img in all_img %}
+                <div>
+                    <img src="{% static one_img %}" alt="加载中" style="width: 300px; height: 300px; float: left">
+                </div>
+            {% endfor %}
+        </div>
+        <br/>
+        <div class="type1_right">
+            <div class="type1_top">商品评价</div>
+            <div class="type1_bottom">
+
+                     <div class="comment_box1">
+                        <span>会员:sam</span>&nbsp;&nbsp;&nbsp;
+                        <span>评论内容:真的好吃</span>
+                        <span style="float:right">评论时间:2018-9-9</span>
+                     </div>
+
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

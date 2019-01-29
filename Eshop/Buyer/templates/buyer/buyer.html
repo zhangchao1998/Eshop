@@ -1,0 +1,56 @@
+{% extends 'buyer/base.html' %}
+{% load static %}
+{% block title %}
+    个人中心
+{% endblock %}
+{% block content %}
+    <div class="cart_list">
+        <div class="cart_top">个人信息</div>
+        <table style="width: 100%">
+            <tr style="width: 100%;height: 30px">
+                <th style="width: 20%">用户名</th>
+                <th style="width: 20%">邮箱</th>
+                <th style="width: 20%">电话</th>
+                <th style="width: 40%">照片</th>
+            </tr>
+            <tr>
+                <td style="text-align: center">{{ buyer.username }}</td>
+                <td style="text-align: center">{{ buyer.email }}</td>
+                <td style="text-align: center">{{ buyer.phone }}</td>
+                <td style="text-align: center"><img src="{% static img %}" alt="加载中" style="width: 40px;height: 40px"></td>
+            </tr>
+        </table>
+    </div>
+    <div style="padding-right: 100px;margin-top: 30px">
+        <a href="/buyer/buyer_change/" style="display: inline-block;padding: 10px 10px;background-color: #FD482C;float: right;border-radius: 10px">
+            编辑个人信息
+        </a>
+    </div>
+    <div class="cart_list">
+        <div class="cart_top">我的收货地址</div>
+        <div class="cart_listbox">
+            <table width="100%" cellpadding="0" cellspacing="0" border='0px'>
+                <tr>
+                    <th width='15%'>收件人姓名</th>
+                    <th width='15%'>收件人电话</th>
+                    <th width='55%'>收货地址</th>
+                    <th width='15%'>操作</th>
+                </tr>
+                {% for address in addressList %}
+                <tr>
+                    <td style="text-align: center">{{ address.consignee }}</td>
+                    <td>{{ address.phone }}</td>
+                    <td>{{ address.address }}</td>
+                    <td>
+                        <a href="/buyer/change_address/{{ address.id }}/">修改</a>
+                        <a href="/buyer/address_del/{{ address.id }}/">删除</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <div class="order" style="margin-top: 30px">
+                    <a href="/buyer/add_address/" style="display: inline-block;padding: 10px 10px;background-color: #ff4400;color: cyan;border-radius: 5px">添加地址</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

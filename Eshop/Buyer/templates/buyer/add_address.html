@@ -1,0 +1,35 @@
+{% extends 'buyer/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="store">
+        <p>添加地址</p>
+        <div class="store_box">
+        <form method="post" action="">
+            {% csrf_token %}
+            <div class="line">
+                <label>收件人姓名</label>
+                 <input type="text" name="name" class="input" value="{{ address.consignee }}"/>
+            </div>
+            <div class="line">
+                <label>收件人电话</label>
+                 <input type="text" name="phone" class="input" value="{{ address.phone }}"/>
+            </div>
+            <div class="line">
+                <label>收货地址&nbsp;&nbsp;&nbsp;</label>
+                 <input type="text" name="address" class="input" value="{{ address.address }}"/>
+            </div>
+            {% if address %}
+            <div class="line">
+                <label></label>
+                <input type="submit" value="修改" class="btn"/>
+            </div>
+            {% else %}
+            <div class="line">
+                <label></label>
+                <input type="submit" value="添加" class="btn"/>
+            </div>
+            {% endif %}
+        </form>
+        </div>
+   </div>
+{% endblock %}

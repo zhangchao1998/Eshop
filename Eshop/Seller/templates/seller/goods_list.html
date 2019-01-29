@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>全球生鲜卖家管理后台</title>
+    <link rel="stylesheet" href="{% static 'seller/css/font.css' %}">
+    <link rel="stylesheet" href="{% static 'seller/css/xadmin.css' %}">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'seller/lib/layui/layui.js' %}" charset="utf-8"></script>
+    <script type="text/javascript" src="{% static 'seller/js/xadmin.js' %}"></script>
+  </head>
+
+  <body class="layui-anim layui-anim-up">
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">商品管理</a>
+        <a href="">商品列表</a>
+      </span>
+    </div>
+    <div class="x-body">
+      <table class="layui-table">
+        <thead>
+          <tr>
+		    <th>商品id</th>
+            <th>商品编号</th>
+            <th>商品名称</th>
+            <th>商品原价</th>
+            <th>商品现价</th>
+            <th>商品库存</th>
+			<th>商品描述</th>
+            <th>操作</th>
+			</tr>
+        </thead>
+        <tbody>
+            {% for goods in goodsList %}
+                <tr>
+                    <td>{{ goods.id }}</td>
+                    <td>{{ goods.goods_id }}</td>
+                    <td><a href="/seller/goods/{{ goods.id }}/">{{ goods.goods_name }}</a></td>
+                    <td>{{ goods.goods_price }}</td>
+                    <td>{{ goods.goods_now_price }}</td>
+                    <td>{{ goods.goods_num }}</td>
+                    <td>{{ goods.goods_description }}</td>
+                    <td >
+				        <a href="/seller/goods_change/{{ goods.id }}/">编辑</a>
+                        <a href="/seller/goods_del/{{ goods.id }}/">删除</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    <div>
+        <ul style="list-style: none">
+            {% for page in page_range %}
+                <li style="display: inline-block">
+                    <a href="/seller/goods_list/{{ page }}/" style="display: inline-block;width: 20px;height: 20px;background-color: #00F7DE;text-align: center;line-height: 20px;border-radius: 50%" >{{ page }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    </div>
+
+  </body>
+
+</html>

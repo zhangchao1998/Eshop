@@ -1,0 +1,127 @@
+{% extends 'buyer/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="cart_list">
+        <div class="cart_top">我的购物车</div>
+        <form action="/buyer/add_order/" method="post">
+        {% csrf_token %}
+        <div class="cart_listbox">
+            <table width="100%" cellpadding="0" cellspacing="0" border='0px'>
+                <tr>
+                    <th width='10%' style="padding-left: 0;text-align: center"><input type="checkbox" id = "all"></th>
+                    <th width='10%'>商品名称</th>
+                    <th width='20%'>商品缩略图</th>
+                    <th width='10%'>商品单价</th>
+                    <th width='20%'>商品数量</th>
+                    <th width='20%'>商品小计</th>
+                    <th width='10%'>操作</th>
+                </tr>
+                <form action="" method="post">
+                {% if goodsList %}
+                    {% for a_goods in goodsList %}
+                    <tr>
+                    <td style="text-align: center"><input type="checkbox" name="off" value="{{ a_goods.goods.id }}" class="one"></td>
+                    <td><a href="#">{{ a_goods.goods.goods_name }}</a></td>
+                    <td><a href="#"><img src="{% static a_goods.img %}" /></a></td>
+                    <td>￥{{ a_goods.goods.goods_price }}元</td>
+                    <td><input type="button" name="-" value="-" class="btn1" onclick="dec()" />
+                        <input type="text" value="{{ a_goods.goods.goods_num }}" id="count" name="count" class="text1"/>
+                        <input type="button" name="+" value="+" class="btn1" onclick="add()"/> </td>
+                    <td>￥{{ a_goods.money }}</td>
+                    <td><a href="/buyer/delete_goods/{{ a_goods.goods.goods_id }}/">删除</a></td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                <tr>
+                <td colspan="6" style="text-align: center;">购物车空空如也~~，请快去购物吧！</td>
+                </tr>
+                {% endif %}
+                </form>
+            </table>
+            <div class="shouhuo" style="margin-top: 20px">
+                <div class="shouhuo_top" style="margin-bottom: 10px">收货信息</div>
+                <label>收货地址:</label>
+                <select name="address" id="" class="input">
+                    {% for add in address_list %}
+                        <option value="{{ add.id }}" class="input">{{ add.consignee }}---{{ add.address }}</option>
+                    {% endfor %}
+                </select>
+                <label>支付方式:</label>
+                <select name="pay_Method" id="" class="input">
+                        <option value="zfb" class="input">支付宝</option>
+                        <option value="wx" class="input">微信</option>
+                        <option value="bank" class="input">银行卡</option>
+                </select>
+            </div>
+            <div class="goon">
+                <div class="clearcart">
+                    <a href="/buyer/delete_all/" class="btn" style="display: inline-block;text-align: center;line-height: 40px">清空购物车</a>
+                </div>
+                <div class="totalprice">
+                 总计{{ all_money }}元
+                </div>
+            </div>
+            <div class="order">
+                    <input type="submit" value="立即下单" class="btn" />
+            </div>
+        </div>
+        </form>
+    </div>
+{#    <script type="text/javascript">#}
+{#        var count ;#}
+{#        function add()#}
+{#        {#}
+{#            count = document.getElementById('count').value;#}
+{#            count++;#}
+{#            document.getElementById('count').value = count;#}
+{#        }#}
+{#        function dec()#}
+{#        {#}
+{#            count = document.getElementById('count').value;#}
+{#            count--;#}
+{#            if(document.getElementById('count').value == 1)#}
+{#            {#}
+{#                document.getElementById('count').value = 1#}
+{#            }#}
+{#            else#}
+{#            {#}
+{#                document.getElementById('count').value = count;#}
+{#            }#}
+{#        }#}
+{#    </script>#}
+    <script>
+        window.onload = function () {
+        var da = document.querySelectorAll("table tr th input")[0];
+        var xiao = document.getElementsByClassName("one");
+        da.onclick = function () {
+            if (da.checked){
+                for (var i = 0;i<xiao.length;i++){
+                    xiao[i].checked = true;
+                    xiao[i].name = "on"+i;
+                }
+            }
+            else {
+                for (var j = 0;j<xiao.length;j++){
+                    xiao[j].checked = false;
+                    xiao[j].name = "off";
+                }
+            }
+        };
+        for (var i = 0;i<xiao.length;i++){
+            xiao[i].onclick = function () {
+                var a = true;
+                for (var j = 0;j<xiao.length;j++){
+                    if (!xiao[j].checked){
+                        a = false;
+                        xiao[j].name = "off";
+                    }
+                    else {
+                        xiao[j].name = "on"+j;
+                    }
+                }
+                da.checked = a;
+            }
+        }
+    }
+    </script>
+{% endblock %}
